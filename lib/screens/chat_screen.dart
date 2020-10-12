@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui_starter/widgets/category_selector.dart';
-import 'package:flutter_chat_ui_starter/widgets/favorite_contacts.dart';
-import 'package:flutter_chat_ui_starter/widgets/recent_chats.dart';
+import 'package:flutter_chat_ui_starter/models/message_model.dart';
+import 'package:flutter_chat_ui_starter/models/user_model.dart';
 
-class HomeScreen extends StatefulWidget {
+class ChatScreen extends StatefulWidget {
+  final User user;
+
+  ChatScreen({this.user});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          iconSize: 30,
-          color: Colors.white,
-          onPressed: () {},
-        ),
+        centerTitle: true,
         title: Text(
-          'Chats',
+          widget.user.name,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
         elevation: 0.0,
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.more_horiz),
             iconSize: 30,
             color: Colors.white,
             onPressed: () {},
@@ -40,24 +37,23 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          CategorySelector(),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 ),
               ),
-              child: Column(
-                children: [
-                  FavoriteContacts(),
-                  RecentChats(),
-                ],
+              child: ListView.builder(
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  return Text(messages[index].text);
+                },
               ),
             ),
-          )
+          ),
         ],
       ),
     );
